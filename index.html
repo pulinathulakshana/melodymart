@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MelodyMart - Artistic Musical Experience</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gold-gradient: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --text-light: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(75, 172, 254, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Glass morphism effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cart-icon {
+            position: relative;
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--secondary-gradient);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(circle at center, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .btn-artistic {
+            padding: 15px 40px;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-art {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary-art {
+            background: transparent;
+            color: var(--text-light);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+        }
+
+        .btn-secondary-art::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--accent-gradient);
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        .btn-secondary-art::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--dark-bg);
+            border-radius: 50px;
+            z-index: -1;
+        }
+
+        .btn-artistic:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Music Wave Animation */
+        .music-wave {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.1;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: var(--primary-gradient);
+            margin: 0 2px;
+            border-radius: 2px;
+            display: inline-block;
+            animation: wave 1.5s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 80px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 60px; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 40px; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 20px; animation-delay: 0.6s; }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.5); }
+            50% { transform: scaleY(1); }
+        }
+
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+        }
+
+        /* Product Cards */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            height: 100%;
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+
+        .product-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .product-image {
+            height: 280px;
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .product-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-left: 0.5rem;
+        }
+
+        .add-to-cart {
+            background: var(--secondary-gradient);
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-to-cart:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Category Cards */
+        .category-card {
+            background: var(--black-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .team-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .team-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--primary-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Features Section */
+        .features {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #2a2a2a 100%);
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            height: 100%;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-form {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 3rem;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            color: var(--text-light);
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            color: var(--text-light);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-label {
+            color: var(--text-light);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer h5 {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--text-light);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background: var(--primary-gradient);
+            color: white;
+            text-align: center;
+            line-height: 45px;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border-color);
+            z-index: 1050;
+            transition: right 0.4s ease;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .music-wave {
+                display: none;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--card-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-gradient);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-gradient);
+        }
+
+        /* Featured Products */
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+
+        .product-card {
+            border: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 250px;
+            background-color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid #eee;
+        }
+
+        .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Categories */
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+        .category-icon {
+			color: black;
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Features */
+        .features {
+            background-color: var(--accent-light);
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--text-dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer h5 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--secondary-color);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 60px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .product-image {
+                height: 200px;
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-music me-2"></i>MelodyMart
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown">
+                            Products
+                        </a>
+                        <ul class="dropdown-menu bg-dark">
+                            <li><a class="dropdown-item text-light" href="#products">Featured</a></li>
+                            <li><a class="dropdown-item text-light" href="#categories">Categories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-light me-3">
+                        <i class="fas fa-user me-1"></i>Login
+                    </button>
+                    <div class="cart-icon" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="display-4">Where Music Meets Artistry</h1>
+                    <p class="hero-subtitle">Discover the symphony of premium instruments crafted for passionate musicians. Your musical journey deserves nothing less than extraordinary.</p>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-artistic btn-primary-art">Explore Collection</button>
+                        <button class="btn btn-artistic btn-secondary-art">Watch Story</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="music-wave">
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                        <div class="wave-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-music me-2"></i>MelodyMart
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown">
+                            Products
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#guitars">Guitars</a></li>
+                            <li><a class="dropdown-item" href="#keyboards">Keyboards</a></li>
+                            <li><a class="dropdown-item" href="#drums">Drums</a></li>
+                            <li><a class="dropdown-item" href="#wind">Wind Instruments</a></li>
+                            <li><a class="dropdown-item" href="#accessories">Accessories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-outline-primary me-3">
+                        <i class="fas fa-user me-1"></i>Login
+                    </button>
+                    <div class="cart-icon me-3" onclick="toggleCart()">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-badge" id="cartCount">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Featured Products -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Featured Products</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card product-card h-500">
+						<img src="1000_F_771714579_Lah8ouQcw7ENMu4IkS0xJ5NO34mOhNyJ.jpg" height="350">
+                            <div class="product-info">
+                            <h5 class="product-title">Acoustic Guitar</h5>
+                            <p class="product-description">For beginners and professionals</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="price">Rs. 25,000</span>
+                                    <span class="original-price">Rs. 30,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('Acoustic Guitar', 25000)">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card product-card h-100">
+						<img src="CVP905B-ezgif.com-avif-to-png-converter-800x700.png" height="350">
+                        <div class="card-body">
+                            <h5 class="product-title">Digital Piano</h5>
+                            <p class="product-description">88-key weighted digital piano</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="price">Rs. 85,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('Digital Piano', 85000)">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card product-card h-400">
+						<img src="19033_12073_1_58b52730f684c183775385a3b54a107e.jpg" height="340">
+                        <div class="card-body">
+                            <h5 class="product-title">Professional Drums</h5>
+                            <p class="product-description">Complete 5-piece drum kit</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="price">Rs. 120,000</span>
+                                    <span class="original-price">Rs. 140,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('Professional Drums', 120000)">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card product-card h-100">
+						<img src="Alt Saxophon Occasion Kategorie.jpg" height="350">
+                        <div class="card-body">
+                            <h5 class="product-title">Alto Saxophone</h5>
+                            <p class="product-description">Professional alto saxophone</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="price">Rs. 180,000</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="addToCart('Alto Saxophone', 180000)">
+                                    <i class="fas fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">Shop by Category</h2>
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                  <div class="category-card">
+                    <div class="category-icon">
+                            <i class="fas fa-guitar"></i>
+							
+                        </div>
+                    <h6><a href="guiters new.html">Guitars</a></h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                  <div class="category-card">
+                    <div class="category-icon">
+                            <i class="fas fa-keyboard"></i>
+                      </div>
+                    <h6><a href="keyboards.html">Keyboards</a></h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                  <div class="category-card">
+                    <div class="category-icon">
+                            <i class="fas fa-drum"></i>
+                      </div>
+                    <h6><a href="drums.html">Drums</a></h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                  <div class="category-card">
+                    <div class="category-icon">
+                            <i class="fas fa-wind"></i>
+                      </div>
+                    <h6><a href="wind.html">Wind</a></h6>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-6 mb-4">
+                  <div class="category-card">
+                    <div class="category-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                    <h6><a href="accessories.html">Accessories</a></h6>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title">About MelodyMart</h2>
+            
+            <!-- Company Story -->
+            <div class="row align-items-center mb-5">
+                <div class="col-lg-6">
+                    <div class="about-image" >
+                        <img src="guitars-and-violins-1024x768.webp" width="600">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <h3 class="mb-3">Our Story</h3>
+                    <p class="mb-3">Founded in 2018 in the heart of Colombo, MelodyMart began as a small family-owned music store with a simple dream: to make quality musical instruments accessible to every Sri Lankan music enthusiast.</p>
+                    <p class="mb-3">What started as a passion project by music lovers has grown into Sri Lanka's most trusted online destination for musical instruments. We've helped thousands of musicians - from curious beginners taking their first steps to seasoned professionals seeking premium instruments.</p>
+                    <p>Today, we're proud to serve customers across all provinces of Sri Lanka, bringing the joy of music to every corner of our beautiful island nation.</p>
+                </div>
+            </div>
+
+            <!-- Vision & Mission -->
+            <div class="row mb-5">
+                <div class="col-lg-6 mb-4">
+                    <div class="why-choose-card text-center" style="background: black; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); height: 100%;">
+                        <div class="text-center mb-3"  >
+                            <i class="fas fa-eye" style="font-size: 3rem; opacity: 0.8;"></i>
+                        </div>
+                        <h4 class="text-center mb-3">Our Vision</h4>
+                        <p class="text-center">To become the leading platform that empowers every Sri Lankan to discover, learn, and excel in their musical journey, fostering a vibrant musical culture across our nation.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+					<div class="why-choose-card text-center" style="background: black; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); height: 100%;">
+                    <div >
+                        <div class="text-center mb-3">
+                            <i class="fas fa-bullseye" style="font-size: 3rem; opacity: 0.8;"></i>
+                        </div>
+                        <h4 class="text-center mb-3">Our Mission</h4>
+                        <p class="text-center">To provide exceptional quality instruments, expert guidance, and outstanding service while supporting the growth of Sri Lanka's musical community through education and accessibility.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meet the Team -->
+<div class="mb-5">
+  <h3 class="text-center mb-4">Meet Our Team</h3>
+  <div class="row">
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="team-card text-center" style="background: blur; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+        <div class="team-image mb-3" style="width: 120px; height: 120px; background-color: var(--accent-light); margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 0;">
+          <img src="e14a8371f954ca9c153ba39cb4af9b87.jpg" width="103" height="150" style="width: 120px; height: 150px; object-fit: cover; border-radius: 0;">
+        </div>
+        <h5>pulina Thulakshana</h5>
+        <p class="text white mb-2">Founder &amp; CEO</p>
+<small>20+ years in music retail, passionate guitarist</small>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="team-card text-center" style="background: blur; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+        <div class="team-image mb-3" style="width: 120px; height: 120px; background-color: var(--accent-light); margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 0;">
+          <img src="360_F_191850653_IkzN9vZTtOtJ8NTKLKOp8PlaY8iCk6Ls.jpg"  style="width: 200px; height: 150px; object-fit: cover; border-radius: 0;">
+        </div>
+        <h5>Priya Jayawardena</h5>
+        <p class="text white mb-2">Head of Customer Experience</p>
+        <small>Expert pianist with 15 years of customer service excellence.</small>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="team-card text-center" style="background: blur; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+        <div class="team-image mb-3" style="width: 120px; height: 120px; background-color: var(--accent-light); margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 0;">
+          <img src="smiling-young-male-professional-standing-with-arms-crossed-while-making-eye-contact-against-isolated-background.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 0;">
+        </div>
+        <h5>Kamal Perera</h5>
+        <p class="text white mb-2">Instrument Specialist</p>
+        <small>Master drummer and percussion expert, handles instrument curation.</small>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="team-card text-center" style="background: blur; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08);">
+        <div class="team-image mb-3" style="width: 120px; height: 120px; background-color: var(--accent-light); margin: 0 auto; display: flex; align-items: center; justify-content: center; border-radius: 0;">
+          <img src="f661ea61616909838a9fbfeda0d2ea14.jpg" style="width: 120px; height: 120px; object-fit: cover; border-radius: 0;">
+        </div>
+        <h5>Sanduni Silva</h5>
+        <p class="text white mb-2">Digital Marketing Manager</p>
+        <small>Violinist and digital strategist, connects music with technology.</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+            <!-- Why Choose Us -->
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="text-center mb-4">Why Choose MelodyMart?</h3>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="why-choose-card text-center" style="background: black; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); height: 100%;">
+                        <div class="why-icon mb-3" style="color: white; font-size: 2.5rem;">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5>Authentic Quality</h5>
+                        <p class="text-white">We source directly from authorized dealers and renowned manufacturers worldwide, ensuring every instrument meets our high standards.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="why-choose-card text-center" style="background: black; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); height: 100%;">
+                        <div class="why-icon mb-3" style="color: var(--secondary-color); font-size: 2.5rem;">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5>Expert Guidance</h5>
+                        <p class="text white">Our team consists of experienced musicians who provide personalized recommendations based on your skill level and musical goals.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="why-choose-card text-center" style="background: black; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); height: 100%;">
+                        <div class="why-icon mb-3" style="color: var(--primary-color); font-size: 2.5rem;">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h5>Community Focus</h5>
+                        <p class="text white">We actively support local music schools, events, and emerging artists, contributing to Sri Lanka's vibrant music scene.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
+                        <h5>Free Delivery</h5>
+                        <p class="text white">Free delivery across Sri Lanka for orders over Rs. 10,000</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>Secure Payment</h5>
+                        <p class="text white">Safe and secure payment methods with buyer protection</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-undo"></i>
+                        </div>
+                        <h5>Easy Returns</h5>
+                        <p class="text white">30-day return policy for all instruments</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h5>24/7 Support</h5>
+                        <p class="text white">Expert customer support available round the clock</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Form -->
+                <div class="col-lg-8 mb-4">
+                    <div class="contact-card">
+                        <h2 class="mb-4" style="color: var(--primary-color);">Send Us a Message</h2>
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="firstName" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="phone">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <select class="form-control" id="subject" required>
+                                    <option value="">Choose a subject...</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="product">Product Information</option>
+                                    <option value="order">Order Status</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="return">Returns & Exchanges</option>
+                                    <option value="wholesale">Wholesale Inquiry</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5" required placeholder="Tell us how we can help you..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Info -->
+                <section id=contact class="col-lg-4">
+                    <!-- Contact Information -->
+                    <div class="contact-card">
+                        <h3 class="mb-4" style="color: var(--primary-color);">Contact Information</h3>
+                        
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h6>Visit Our Store</h6>
+                                <p class="mb-0">123 Galle Road<br>Colombo 03, Sri Lanka</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h6>Call Us</h6>
+                                <p class="mb-0">+94 11 123 4567<br>+94 77 123 4567</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h6>Email Us</h6>
+                                <p class="mb-0">info@melodymart.lk<br>support@melodymart.lk</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-info-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h6>Working Hours</h6>
+                                <p class="mb-0">Mon-Fri: 9AM-7PM<br>Sat: 9AM-5PM<br>Sun: 10AM-4PM</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media -->
+                    <div class="social-contact">
+                        <h4 class="mb-3" style="color: var(--primary-color);">Follow Us</h4>
+                        <p class="text-muted mb-3">Stay connected for latest updates and music tips</p>
+                        <div>
+                            <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="py-5" style="background-color: var(--accent-light);">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="text-center mb-4" style="color: var(--primary-color);">Find Us</h2>
+                    <div class="map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467784827!2d79.84295931477296!3d6.914712094999515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae259663bb7d2b7%3A0x908b2c8df1c9d7e3!2sGalle%20Rd%2C%20Colombo%2C%20Sri%20Lanka!5e0!3m2!1sen!2sus!4v1641234567890!5m2!1sen!2sus" 
+                            width="100%" 
+                            height="400" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: var(--primary-color);">Frequently Asked Questions</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq1">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                    What are your delivery options?
+                                </button>
+                            </h2>
+                            <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We offer free delivery across Sri Lanka for orders over Rs. 10,000. Standard delivery takes 2-3 business days in Colombo and 3-5 business days for other areas. Express delivery is available for urgent orders.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq2">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                    Do you offer instrument warranties?
+                                </button>
+                            </h2>
+                            <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, all our instruments come with manufacturer warranties. Additionally, we offer extended warranty options and comprehensive after-sales support including maintenance and repair services.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq3">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                    Can I try instruments before purchasing?
+                                </button>
+                            </h2>
+                            <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely! We encourage customers to visit our showroom to try instruments before purchasing. We also offer a 30-day return policy for online purchases if you're not completely satisfied.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq4">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
+                                    Do you provide music lessons?
+                                </button>
+                            </h2>
+                            <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    While we don't directly provide lessons, we have partnerships with qualified music teachers and schools. We can connect you with certified instructors based on your instrument and skill level.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="footer bg-black">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5><i class="fas fa-music me-2"></i>MelodyMart</h5>
+                    <p>Your trusted partner in musical excellence. We bring you the finest selection of musical instruments from around the world, right here in Sri Lanka.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Categories</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#Guitars">Guitars</a></li>
+                        <li><a href="#Keyboards">Keyboards</a></li>
+                        <li><a href="#Drums">Drums</a></li>
+                        <li><a href="#wind">Wind Instruments</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h5>Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>123 Galle Road, Colombo 03, Sri Lanka</p>
+                    <p><i class="fas fa-phone me-2"></i>+94 11 123 4567</p>
+                    <p><i class="fas fa-envelope me-2"></i>info@melodymart.lk</p>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2025 MelodyMart. All rights reserved. | Designed in Sri Lanka</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Sidebar (Hidden by default) -->
+    <div id="cartSidebar" style="position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; background: white; box-shadow: -2px 0 10px rgba(0,0,0,0.1); z-index: 1050; transition: right 0.3s ease; padding: 20px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5>Shopping Cart</h5>
+            <button class="btn-close" onclick="toggleCart()"></button>
+        </div>
+        <div id="cartItems">
+            <p class="text-muted text-center">Your cart is empty</p>
+        </div>
+        <div class="cart-total mt-4 pt-3" style="border-top: 1px solid #eee;">
+            <div class="d-flex justify-content-between">
+                <strong>Total: Rs. <span id="cartTotal">0</span></strong>
+            </div>
+            <button class="btn btn-primary w-100 mt-3">Checkout</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let cart = [];
+        let cartCount = 0;
+        let cartTotal = 0;
+
+        function addToCart(productName, price) {
+            cart.push({ name: productName, price: price });
+            cartCount++;
+            cartTotal += price;
+            
+            document.getElementById('cartCount').textContent = cartCount;
+            updateCartDisplay();
+            
+            // Show success message
+            showAlert(`${productName} added to cart!`, 'success');
+        }
+
+        function removeFromCart(index) {
+            const item = cart[index];
+            cartTotal -= item.price;
+            cart.splice(index, 1);
+            cartCount--;
+            
+            document.getElementById('cartCount').textContent = cartCount;
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-muted text-center">Your cart is empty</p>';
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item d-flex justify-content-between align-items-center mb-2 p-2" style="border: 1px solid #eee; border-radius: 5px;">
+                        <div>
+                            <small class="fw-bold">${item.name}</small><br>
+                            <small class="text-muted">Rs. ${item.price.toLocaleString()}</small>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+            
+            cartTotalElement.textContent = cartTotal.toLocaleString();
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const currentRight = cartSidebar.style.right;
+            
+            if (currentRight === '0px') {
+                cartSidebar.style.right = '-300px';
+            } else {
+                cartSidebar.style.right = '0px';
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 100px; right: 20px; z-index: 1060; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.parentNode.removeChild(alertDiv);
+                }
+            }, 3000);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function(event) {
+            const cartSidebar = document.getElementById('cartSidebar');
+            const cartIcon = document.querySelector('.cart-icon');
+            
+            if (!cartSidebar.contains(event.target) && !cartIcon.contains(event.target) && cartSidebar.style.right === '0px') {
+                toggleCart();
+            }
+        });
+    </script>
+</body>
+</html>
